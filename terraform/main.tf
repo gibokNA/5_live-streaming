@@ -59,6 +59,15 @@ resource "aws_security_group" "jitsi_sg" {
   description = "Allow WebRTC and SSH traffic"
   vpc_id      = aws_vpc.jitsi_vpc.id
 
+  # [Inbound] (Grafana 전용. 3000번 포트)
+  ingress {
+    description = "Allow Grafana"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # 보안상 특정 IP로 제한하는것이 좋음.
+  }
+
   # [Inbound] (Ping 허용)
   ingress {
     description = "Allow all ICMP"
